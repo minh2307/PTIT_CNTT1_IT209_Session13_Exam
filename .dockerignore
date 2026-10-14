@@ -3,9 +3,7 @@
 frontend
 .gradle
 backend/.gradle
-backend/build/*
-!backend/build/libs
-!backend/build/libs/*.jar
+backend/build
 .idea
 *.iml
 .vscode

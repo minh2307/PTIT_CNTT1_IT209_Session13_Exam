@@ -27,17 +27,16 @@ cd backend
 *Kết quả:* Tất cả kiểm thử chạy thành công (`BUILD SUCCESSFUL`).
 
 ### 2.2. Build Docker Image cho Backend
-Tạo file executable JAR và đóng gói thành Docker Image:
+Dockerfile đã được cấu hình **Multi-stage Build** (Stage 1 biên dịch mã nguồn bằng Gradle, Stage 2 đóng gói JRE siêu nhẹ). Docker sẽ tự động build file JAR bên trong container mà không bắt buộc phải build trước ở máy host:
 ```bash
-# Build JAR với Gradle:
-cd backend && ./gradlew bootJar -x test && cd ..
-
 # Đóng gói Docker Image (hỗ trợ cả từ thư mục gốc lẫn thư mục backend):
 docker build -t campus-hub-backend .
 
 # Hoặc nếu ở thư mục backend:
 cd backend && docker build -t campus-hub-backend .
 ```
+*(Lưu ý tùy chọn: Bạn vẫn có thể build JAR thủ công trên máy host bằng Gradle nếu muốn: `cd backend && ./gradlew bootJar -x test && cd ..`)*
+
 Kiểm tra image trong danh sách Docker:
 ```bash
 docker images campus-hub-backend
