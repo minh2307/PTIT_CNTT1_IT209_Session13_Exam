@@ -34,6 +34,7 @@ services:
     ports:
       - "8080:8080"
     environment:
+      JAVA_TOOL_OPTIONS: "-Xms128m -Xmx384m"
       DB_URL: jdbc:mysql://mysql:3306/campus_hub?createDatabaseIfNotExist=true&useSSL=false&allowPublicKeyRetrieval=true
       DB_USERNAME: root
       DB_PASSWORD: rootpassword
@@ -46,6 +47,21 @@ services:
       timeout: 5s
       retries: 5
       start_period: 25s
+
+  frontend:
+    image: campus-hub-frontend
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name: campushub-frontend
+    restart: unless-stopped
+    depends_on:
+      backend:
+        condition: service_healthy
+    ports:
+      - "80:80"
+    networks:
+      - campushub-network
 
 volumes:
   mysql_data:
